@@ -10,7 +10,8 @@ const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('admin_token');
+  // Prefer admin_token if present, else fall back to customer token
+  const token = localStorage.getItem('admin_token') || localStorage.getItem('token');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -22,7 +23,7 @@ api.interceptors.response.use(
   (err) => {
     if (err.response?.status === 401) {
       localStorage.removeItem('admin_token');
-      window.location.href = '/login';
+      localStorage.removeItem('token');
     }
     return Promise.reject(err);
   }

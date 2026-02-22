@@ -11,7 +11,7 @@ const LoginPage = () => {
   const [submitting, setSubmitting] = useState(false);
 
   if (user && user.role === 'admin') {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/admin" replace />;
   }
 
   const handleSubmit = async (e) => {
@@ -24,7 +24,7 @@ const LoginPage = () => {
     try {
       await login(email, password);
       toast.success('Login successful');
-      navigate('/');
+      navigate('/admin');
     } catch (err) {
       toast.error(err.response?.data?.message || err.message || 'Login failed');
     } finally {

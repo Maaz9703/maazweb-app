@@ -8,7 +8,7 @@ const DashboardLayout = () => {
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
+    navigate('/admin/login');
   };
 
   const navStyle = ({ isActive }) => ({
@@ -34,9 +34,9 @@ const DashboardLayout = () => {
         }}
       >
         <div style={{ marginBottom: 32 }}>
-          <h1 style={{ 
-            fontSize: 28, 
-            fontWeight: 800, 
+          <h1 style={{
+            fontSize: 28,
+            fontWeight: 800,
             letterSpacing: '2px',
             background: 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)',
             WebkitBackgroundClip: 'text',
@@ -48,39 +48,53 @@ const DashboardLayout = () => {
           <p style={{ fontSize: 14, color: '#64748b', marginTop: 4 }}>{user?.email}</p>
         </div>
         <nav style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 4 }}>
-          <NavLink to="/" end style={navStyle}>
+          <NavLink to="/admin" end style={navStyle}>
             <span>📊</span> Dashboard
           </NavLink>
-          <NavLink to="/products" style={navStyle}>
+          <NavLink to="/admin/products" style={navStyle}>
             <span>📦</span> Products
           </NavLink>
-          <NavLink to="/orders" style={navStyle}>
+          <NavLink to="/admin/orders" style={navStyle}>
             <span>🛒</span> Orders
           </NavLink>
-          <NavLink to="/users" style={navStyle}>
+          <NavLink to="/admin/users" style={navStyle}>
             <span>👥</span> Users
           </NavLink>
-          <NavLink to="/coupons" style={navStyle}>
+          <NavLink to="/admin/coupons" style={navStyle}>
             <span>🎫</span> Coupons
           </NavLink>
-          <NavLink to="/reviews" style={navStyle}>
+          <NavLink to="/admin/reviews" style={navStyle}>
             <span>⭐</span> Reviews
           </NavLink>
-          <NavLink to="/reports" style={navStyle}>
+          <NavLink to="/admin/reports" style={navStyle}>
             <span>📈</span> Reports
           </NavLink>
-          <NavLink to="/activity" style={navStyle}>
+          <NavLink to="/admin/activity" style={navStyle}>
             <span>📋</span> Activity Feed
           </NavLink>
-          <NavLink to="/inventory" style={navStyle}>
+          <NavLink to="/admin/inventory" style={navStyle}>
             <span>📦</span> Inventory Alerts
           </NavLink>
-          <NavLink to="/customers" style={navStyle}>
+          <NavLink to="/admin/customers" style={navStyle}>
             <span>👥</span> Customer Insights
           </NavLink>
-          <NavLink to="/settings" style={navStyle}>
+          <NavLink to="/admin/settings" style={navStyle}>
             <span>⚙️</span> Settings
           </NavLink>
+          <div style={{ marginTop: 8, borderTop: '1px solid #334155', paddingTop: 8 }}>
+            <NavLink to="/" style={() => ({
+              display: 'flex',
+              alignItems: 'center',
+              gap: 10,
+              padding: '12px 16px',
+              borderRadius: 8,
+              color: '#a78bfa',
+              background: 'transparent',
+              textDecoration: 'none',
+            })}>
+              <span>🌐</span> View Storefront
+            </NavLink>
+          </div>
         </nav>
         <button
           onClick={handleLogout}

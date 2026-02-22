@@ -48,33 +48,39 @@ app.get('/api/health', (req, res) => {
 const errorHandler = require('./middleware/error');
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 5000;
-const server = app.listen(PORT, () => {
-  console.log(`Server running in ${process.env.NODE_ENV || 'development'} on port ${PORT}`);
-});
+// Only listen when not running on Vercel (local development)
+if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+  const PORT = process.env.PORT || 5000;
+  const server = app.listen(PORT, () => {
+    console.log(`Server running in ${process.env.NODE_ENV || 'development'} on port ${PORT}`);
+  });
 
-// Handle server errors (e.g., port already in use)
-server.on('error', (err) => {
-  if (err.code === 'EADDRINUSE') {
-    console.error(`\n❌ Error: Port ${PORT} is already in use.`);
-    console.error(`Please stop the process using port ${PORT} or use a different port.\n`);
-    console.error(`To find and kill the process on Windows:`);
-    console.error(`  netstat -ano | findstr :${PORT}`);
-    console.error(`  taskkill /PID <PID> /F\n`);
-  } else {
-    console.error(`Server error: ${err.message}`);
-  }
-  process.exit(1);
-});
+  // Handle server errors (e.g., port already in use)
+  server.on('error', (err) => {
+    if (err.code === 'EADDRINUSE') {
+      console.error(`\n❌ Error: Port ${PORT} is already in use.`);
+      console.error(`Please stop the process using port ${PORT} or use a different port.\n`);
+      console.error(`To find and kill the process on Windows:`);
+      console.error(`  netstat -ano | findstr :${PORT}`);
+      console.error(`  taskkill /PID <PID> /F\n`);
+    } else {
+      console.error(`Server error: ${err.message}`);
+    }
+    process.exit(1);
+  });
 
-// Handle unhandled promise rejections
-process.on('unhandledRejection', (err) => {
-  console.log(`Error: ${err.message}`);
-  server.close(() => process.exit(1));
-});
+  // Handle unhandled promise rejections
+  process.on('unhandledRejection', (err) => {
+    console.log(`Error: ${err.message}`);
+    server.close(() => process.exit(1));
+  });
 
-// Handle uncaught exceptions
-process.on('uncaughtException', (err) => {
-  console.error(`Uncaught Exception: ${err.message}`);
-  server.close(() => process.exit(1));
-});
+  // Handle uncaught exceptions
+  process.on('uncaughtException', (err) => {
+    console.error(`Uncaught Exception: ${err.message}`);
+    server.close(() => process.exit(1));
+  });
+}
+
+// Export for Vercel serverless
+module.exports = app;
